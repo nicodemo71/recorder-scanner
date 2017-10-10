@@ -1,14 +1,38 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Voice Recorder and Barcode
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <button ion-button color="danger" round icon-start (click)="recordVoice()">
+    <ion-icon name='recording' is-active="false"></ion-icon>
+    Record
+  </button>
+  <button ion-button color="secondary" round icon-start (click)="scanBarcode()">
+    <ion-icon name='barcode' is-active="false"></ion-icon>
+    Scan
+  </button>
+  <ion-list>
+    <ion-item ion-item *ngFor="let record of records">
+      <p>full path:&nbsp;{{ record.fullPath }}</p>
+      <p>size Kb:&nbsp;{{ (record.size / 1024) | number:'1.2-2'}}</p>
+      <p>type:&nbsp;{{ record.type }}</p>
+    </ion-item>
+    <ion-item *ngIf="barcode && barcode.text && barcode.format">
+      <p>{{ barcode.text }}</p>
+      <p>{{ barcode.format }}</p>
+    </ion-item>
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <div padding>
+    <button ion-button icon-start (click)="exitApplication()">
+      <ion-icon name='exit' is-active="false"></ion-icon>
+      exit
+    </button>
+  </div>
+</ion-footer>
