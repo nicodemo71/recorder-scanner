@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, Platform, AlertController  } from 'ionic-angular';
 import { MediaCapture, MediaFile, CaptureError, CaptureAudioOptions } from '@ionic-native/media-capture';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { SpeechRecognition } from '@ionic-native/speech-recognition';
 
 @Component({
   selector: 'page-home',
@@ -10,6 +11,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 export class HomePage {
   records: MediaFile[];
   barcode: {text: string, format: string, cancelled: boolean};
+  isRecognitionAvailable: boolean;
   public unregisterBackButtonAction: any;
 
 
@@ -38,12 +40,17 @@ export class HomePage {
     public mediaCapture: MediaCapture,
     public platform: Platform,
     public alertCtrl: AlertController,
-    private barcodeScanner: BarcodeScanner
+    private barcodeScanner: BarcodeScanner,
+    private speechRecognition: SpeechRecognition
     ) {
     platform.ready().then(value => {
       this.unregisterBackButtonAction = this.platform.registerBackButtonAction(() => {
         this.customHandleBackButton();
       }, 10);
+
+      this.speechRecognition.isRecognitionAvailable()
+        .then((available: boolean) => this.isRecognitionAvailable = available)
+
     })
   }
 
