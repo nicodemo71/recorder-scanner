@@ -12,6 +12,7 @@ export class HomePage {
   records: MediaFile[];
   barcode: {text: string, format: string, cancelled: boolean};
   isRecognitionAvailable: boolean;
+  supportedLanguages: Array<string>;
   public unregisterBackButtonAction: any;
 
 
@@ -49,7 +50,19 @@ export class HomePage {
       }, 10);
 
       this.speechRecognition.isRecognitionAvailable()
-        .then((available: boolean) => this.isRecognitionAvailable = available)
+        .then((available: boolean) => {
+          this.isRecognitionAvailable = available;
+          if (available) {
+            this.speechRecognition.getSupportedLanguages()
+              .then(
+                (languages: Array<string>) => {
+                  this.supportedLanguages = languages
+                  console.log(languages);
+                },
+                (error) => console.log(error)
+              )
+          }
+        })
 
     })
   }
@@ -74,6 +87,22 @@ export class HomePage {
       // An error occurred
       alert(err);
     });
+  }
+
+  startSpeechRecognition() {
+    let options = {
+      language: "it-IT",
+      matches: 5, /* default value */
+      prompt: "",      // Android only
+      showPopup: true, /* default value */ // Android only
+      // Boolean showPartial // iOS only
+    }
+
+    this.speechRecognition.startListening(options)
+      .subscribe(
+        (matches: Array<string>) => console.log(matches),
+        (onerror) => console.log('error:', onerror)
+      )
   }
 
   exitApplication () {

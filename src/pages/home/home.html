@@ -28,6 +28,7 @@
   </ion-list>
   <ion-item>
     <ion-label>isRecognitionAvailable:&nbsp;{{isRecognitionAvailable}}</ion-label>
+    <button ion-button [disabled]="!isRecognitionAvailable" (click)="startSpeechRecognition()"></button>
   </ion-item>
 </ion-content>
 
