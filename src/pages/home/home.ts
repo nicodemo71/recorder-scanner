@@ -11,8 +11,9 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition';
 export class HomePage {
   records: MediaFile[];
   barcode: {text: string, format: string, cancelled: boolean};
-  isRecognitionAvailable: boolean;
+  isRecognitionAvailable: boolean = false;
   supportedLanguages: Array<string>;
+  matches: Array<string>;
   public unregisterBackButtonAction: any;
 
 
@@ -57,7 +58,7 @@ export class HomePage {
               .then(
                 (languages: Array<string>) => {
                   this.supportedLanguages = languages
-                  console.log(languages);
+                  // console.log(languages);
                 },
                 (error) => console.log(error)
               )
@@ -97,11 +98,24 @@ export class HomePage {
       showPopup: true, /* default value */ // Android only
       // Boolean showPartial // iOS only
     }
+    this.matches = new Array<string>();
 
     this.speechRecognition.startListening(options)
       .subscribe(
-        (matches: Array<string>) => console.log(matches),
-        (onerror) => console.log('error:', onerror)
+        (matches: Array<string>) => {
+          this.matches = matches;
+          // console.log(matches)
+        },
+        (onerror) => {
+          console.log('error:', onerror);
+
+          this.speechRecognition.requestPermission()
+            .then(
+              () => console.log('Granted'),
+              () => console.log('Denied')
+            )
+
+        }
       )
   }
 

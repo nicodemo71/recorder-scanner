@@ -9,6 +9,7 @@ import { HomePage } from '../pages/home/home';
 
 import { MediaCapture } from '@ionic-native/media-capture'
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { SpeechRecognition } from '@ionic-native/speech-recognition';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     SplashScreen,
     MediaCapture,
     BarcodeScanner,
+    SpeechRecognition,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

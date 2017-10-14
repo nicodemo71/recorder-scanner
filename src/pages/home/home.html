@@ -7,7 +7,13 @@
 </ion-header>
 
 <ion-content padding>
+  <!--
   <button ion-button color="danger" round icon-start (click)="recordVoice()">
+    <ion-icon name='recording' is-active="false"></ion-icon>
+    Record
+  </button>
+  -->
+  <button ion-button color="danger" round icon-start [disabled]="!isRecognitionAvailable" (click)="startSpeechRecognition()">
     <ion-icon name='recording' is-active="false"></ion-icon>
     Record
   </button>
@@ -27,8 +33,10 @@
     </ion-item>
   </ion-list>
   <ion-item>
-    <ion-label>isRecognitionAvailable:&nbsp;{{isRecognitionAvailable}}</ion-label>
-    <button ion-button [disabled]="!isRecognitionAvailable" (click)="startSpeechRecognition()"></button>
+    <!--<ion-label>isRecognitionAvailable:&nbsp;{{isRecognitionAvailable}}</ion-label>-->
+    <div *ngFor="let match of matches">
+      {{match}}
+    </div>
   </ion-item>
 </ion-content>
 
